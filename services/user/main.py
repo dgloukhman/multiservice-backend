@@ -39,7 +39,7 @@ def update_resource_in_memory(orm_obj: models.Base, **kwargs):
 ################# Routes #####################
 ##############################################
 
-@app.get('/user/', tags=["User"])
+@app.get('/user', tags=["User"])
 def get_all_users(db: Session = Depends(get_db)):
     """
     List all users
@@ -47,7 +47,7 @@ def get_all_users(db: Session = Depends(get_db)):
     return db.query(models.User).all()
 
 
-@app.post('/user/', tags=["User"], status_code=status.HTTP_201_CREATED)
+@app.post('/user', tags=["User"], status_code=status.HTTP_201_CREATED)
 def create_user(user: schema.UserRegister, db: Session = Depends(get_db)):
     """
     Create a user
