@@ -1,0 +1,39 @@
+
+version: '3.9'
+
+services:
+  db:
+    container_name: "postgres"
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - postgres_data:/var/lib/postgresql/
+  nginx:
+    container_name: "nginx"
+    image: nginx:stable-alpine
+    ports: 
+      - "80:80"
+    volumes: 
+      - ./nginx/:/etc/nginx/conf.d/
+    depends_on: 
+      - user
+  user:
+    container_name: "user-service"
+    image: user
+    build:
+      context: .
+      dockerfile: Dockerfile-user
+    expose: 
+      - "80"
+    volumes: 
+      - ./services/user:/app
+    depends_on: 
+      - db
+
+
+volumes:
+  postgres_data:
+
