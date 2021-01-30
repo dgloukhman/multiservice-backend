@@ -8,7 +8,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - postgres_data:/var/lib/postgresql/
   nginx:
@@ -32,8 +32,21 @@ services:
       - ./services/user:/app
     depends_on: 
       - db
+  supplier:
+    container_name: "supplier-service"
+    image: supplier
+    build:
+      context: .
+      dockerfile: Dockerfile-supplier
+    expose: 
+      - "80"
+    volumes: 
+      - ./services/supplier:/app
+    depends_on: 
+      - db
 
 
 volumes:
   postgres_data:
+
 
